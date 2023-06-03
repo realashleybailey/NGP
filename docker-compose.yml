@@ -50,7 +50,7 @@ services:
       MYSQL_ROOT_HOST: '%'
       TZ: 'Europe/London'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-    command: --bind-address=0.0.0.0 --default-storage-engine=aria
+    command: --bind-address=0.0.0.0 --default-storage-engine=aria --user=root
     volumes:
       - ./data/mysql:/var/lib/mysql
     secrets:
