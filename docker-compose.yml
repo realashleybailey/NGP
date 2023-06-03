@@ -15,7 +15,7 @@ services:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     environment:
-      DB_MYSQL_HOST: 'localhost'
+      DB_MYSQL_HOST: 'db'
       DB_MYSQL_PORT: '3306'
       DB_MYSQL_USER: 'npm'
       DB_MYSQL_PASSWORD__FILE: /run/secrets/MYSQL_PWD
@@ -29,18 +29,20 @@ services:
       - MYSQL_PWD
     depends_on:
       - db
+    extra_hosts:
+      - "db:127.0.0.1"
 
   db:
-    image: mysql:latest
+    image: jc21/mariadb-aria
     restart: unless-stopped
-    tty: true
+    network_mode: 'host'
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/DB_ROOT_PWD
+      MYSQL_ROOT_PASSWORD__FILE: /run/secrets/DB_ROOT_PWD
       MYSQL_DATABASE: "npm"
       MYSQL_USER: "npm"
-      MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PWD
-    ports:
-      - '3306:3306'
+      MYSQL_PASSWORD__FILE: /run/secrets/MYSQL_PWD
+    # ports:
+    #   - '3306:3306'
     volumes:
       - ./data/mysql:/var/lib/mysql
     secrets:
