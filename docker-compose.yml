@@ -53,7 +53,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     command: --bind-address=0.0.0.0 --default-storage-engine=aria
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     secrets:
       - DB_ROOT_PWD
       - MYSQL_PWD
@@ -65,3 +65,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 30
+
+volumes:
+  mariadb_data:
