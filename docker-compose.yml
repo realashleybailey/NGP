@@ -11,11 +11,15 @@ services:
     image: 'jc21/nginx-proxy-manager:github-s6-verbose'
     restart: unless-stopped
     network_mode: 'host'
+    # ports:
+    #   - '80:80'
+    #   - '81:81'
+    #   - '443:443'
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     environment:
-      DB_MYSQL_HOST: 'db'
+      DB_MYSQL_HOST: 'host.docker.internal'
       DB_MYSQL_PORT: '3306'
       DB_MYSQL_USER: 'npm'
       DB_MYSQL_PASSWORD__FILE: /run/secrets/MYSQL_PWD
@@ -30,19 +34,19 @@ services:
     depends_on:
       - db
     extra_hosts:
-      - "db:127.0.0.1"
+      - "host.docker.internal:host-gateway"
 
   db:
     image: jc21/mariadb-aria
     restart: unless-stopped
-    network_mode: 'host'
+    # network_mode: 'host'
+    ports:
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD__FILE: /run/secrets/DB_ROOT_PWD
-      MYSQL_DATABASE: "npm"
-      MYSQL_USER: "npm"
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
       MYSQL_PASSWORD__FILE: /run/secrets/MYSQL_PWD
-    # ports:
-    #   - '3306:3306'
     volumes:
       - ./data/mysql:/var/lib/mysql
     secrets:
