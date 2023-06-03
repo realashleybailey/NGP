@@ -21,9 +21,9 @@ services:
     environment:
       DB_MYSQL_HOST: 'host.docker.internal'
       DB_MYSQL_PORT: '3306'
-      DB_MYSQL_USER: 'npg'
+      DB_MYSQL_USER: 'npm'
       DB_MYSQL_PASSWORD__FILE: /run/secrets/MYSQL_PWD
-      DB_MYSQL_NAME: 'npg'
+      DB_MYSQL_NAME: 'npm'
       DISABLE_IPV6: 'false'
     healthcheck:
       test: [ "CMD", "/bin/check-health" ]
@@ -44,10 +44,13 @@ services:
       - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/DB_ROOT_PWD
-      MYSQL_DATABASE: 'npg'
-      MYSQL_USER: 'npg'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
       MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PWD
-    command: --bind-address=0.0.0.0
+      MYSQL_ROOT_HOST: '%'
+      TZ: 'Europe/London'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    command: --bind-address=0.0.0.0 --default-storage-engine=aria
     volumes:
       - ./data/mysql:/var/lib/mysql
     secrets:
