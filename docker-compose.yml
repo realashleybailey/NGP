@@ -47,16 +47,16 @@ services:
       MYSQL_DATABASE: 'npm'
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PWD
-      MYSQL_ROOT_HOST: '%'
-      MYSQL_USER_HOST: '%'
-      TZ: 'Europe/London'
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     command: --bind-address=0.0.0.0 --default-storage-engine=aria
     volumes:
       - mariadb_data:/var/lib/mysql
     secrets:
       - DB_ROOT_PWD
       - MYSQL_PWD
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 10s
+      timeout: 3s
 
   watchtower:
     image: containrrr/watchtower
@@ -66,7 +66,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 30
     environment:
-      WATCHTOWER_NOTIFICATION_URL: "pushover://shoutrrr:a7vzxg4vg5a8tprj8ifxi9kwxy2rzq@uLCnNuNPeE9t7KTvVbFv6fPejYw5WX"
-
+      WATCHTOWER_NOTIFICATION_URL: 'pushover://shoutrrr:a7vzxg4vg5a8tprj8ifxi9kwxy2rzq@uLCnNuNPeE9t7KTvVbFv6fPejYw5WX'
+      
 volumes:
   mariadb_data:
