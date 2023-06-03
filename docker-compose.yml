@@ -37,16 +37,16 @@ services:
       - "host.docker.internal:host-gateway"
 
   db:
-    image: jc21/mariadb-aria
+    image: mysql:latest
     restart: unless-stopped
     # network_mode: 'host'
     ports:
       - '3306:3306'
     environment:
-      MYSQL_ROOT_PASSWORD__FILE: /run/secrets/DB_ROOT_PWD
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/DB_ROOT_PWD
       MYSQL_DATABASE: 'npg'
       MYSQL_USER: 'npg'
-      MYSQL_PASSWORD__FILE: /run/secrets/MYSQL_PWD
+      MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PWD
     command: --bind-address=0.0.0.0
     volumes:
       - ./data/mysql:/var/lib/mysql
