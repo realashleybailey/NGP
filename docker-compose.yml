@@ -45,7 +45,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/DB_ROOT_PWD
       MYSQL_DATABASE: 'npm'
-      MYSQL_USER: 'npm'
+      MYSQL_USER: 'root'
       MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PWD
       MYSQL_ROOT_HOST: '%'
       MYSQL_USER_HOST: '%'
