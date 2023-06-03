@@ -37,7 +37,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   db:
-    image: mysql:latest
+    image: mariadb:latest
     restart: unless-stopped
     # network_mode: 'host'
     ports:
@@ -48,6 +48,7 @@ services:
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD_FILE: /run/secrets/MYSQL_PWD
       MYSQL_ROOT_HOST: '%'
+      MYSQL_USER_HOST: '%'
       TZ: 'Europe/London'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     command: --bind-address=0.0.0.0 --default-storage-engine=aria --user=root
